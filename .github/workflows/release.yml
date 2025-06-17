@@ -24,27 +24,30 @@ jobs:
       - name: Display .NET version
         run: dotnet --info
 
+      - name: Restore workloads
+        run: dotnet workload restore Samples/UNO_Sample.Mobile/UNO_Sample.Mobile.csproj
+
       - name: Restore
-        run: dotnet restore **/*.Skia.Gtk.csproj
+        run: dotnet restore Samples/UNO_Sample.Mobile/UNO_Sample.Mobile.csproj
 
       - name: Publish
         run: |
-          dotnet publish **/*.Skia.Gtk.csproj \
-            -c Release \
-            -p:PublishSingleFile=true \
-            -p:SelfContained=true \
-            -o build_output
+          dotnet publish Samples/UNO_Sample.Mobile/UNO_Sample.Mobile.csproj \
+          -c Release \
+          -p:PublishSingleFile=true \
+          -p:SelfContained=true \
+          -o build_output
 
       - name: Zip output
         run: |
           cd build_output
-          zip -r ../SprachsteuerungApp.zip .
+          zip -r ../UNO_Sample.Mobile.zip .
           cd ..
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: SprachsteuerungApp.zip
+          files: UNO_Sample.Mobile.zip
           name: Release ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
           tag_name: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
 
