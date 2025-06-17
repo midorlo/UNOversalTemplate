@@ -24,6 +24,9 @@ jobs:
       - name: Display .NET version
         run: dotnet --info
 
+      - name: Restore workloads
+        run: dotnet workload restore Samples/UNO_Sample.Mobile/UNO_Sample.Mobile.csproj
+
       - name: Restore
         run: dotnet restore Samples/UNO_Sample.Mobile/UNO_Sample.Mobile.csproj
 
